@@ -15,7 +15,7 @@ type Database interface {
 	GetEmployeeByID(id string) (models.Employee, error)
 	GetEmployeesByCompanyID(companyID string) ([]models.Employee, error)
 
-	AddClient(id, name, gmail, phone string) error
+	AddClient(id,companyId, name, gmail, phone string) error
 	GetClientByID(id string) (models.Client, error)
 
 	AddClientProcess(clientID, employeeID string, revenue float64, priority, status string) error

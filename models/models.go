@@ -1,42 +1,46 @@
 package models
 
 type User struct {
-	ID    string
-	Name  string
-	Gmail string
-	Phone string
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Gmail string `json:"gmail"`
+	Phone string `json:"phone"`
 }
 
 type Company struct {
-	ID   string
-	Name string
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 type Employee struct {
-	ID        string
-	UserID    string
-	CompanyID string
-	Role      string
+	ID        string `json:"id"`
+	UserID    string `json:"user_id"`
+	CompanyID string `json:"company_id"`
+	Role      string `json:"role"`
 }
+
 
 type Client struct {
-	ID    string
-	Name  string
-	Gmail string
-	Phone string
+	ID        string `json:"id"`
+	CompanyID string `json:"company_id"`
+	Name      string `json:"name"`
+	Gmail     string `json:"gmail"`
+	Phone     string `json:"phone"`
 }
 
+
 type ClientProcess struct {
-	ClientID           string
-	AssignedEmployeeID string
-	ExpectedRevenue    float64
-	Priority           string
-	Status             string
+	ClientID           string  `json:"client_id"`
+	AssignedEmployeeID string  `json:"assigned_employee_id"`
+	ExpectedRevenue    float64 `json:"expected_revenue"`
+	Priority           string  `json:"priority"`
+	Status             string  `json:"status"`
 }
 
 type Schedule struct {
-	ID                   string
-	ProcessClientID      string
-	ProcessAssignedEmpID string
-	Schedule             string
+	ID                   string `json:"id"`
+	ProcessClientID      string `json:"process_client_id"`
+	ProcessAssignedEmpID string `json:"process_assigned_employee_id"`
+	Schedule             string `json:"schedule"`
 }
+

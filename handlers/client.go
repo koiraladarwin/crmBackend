@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/koiraladarwin/crmbackend/models"
 )
@@ -14,10 +15,20 @@ func (h *Handler) AddClient(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
 		return
 	}
-	err := h.DB.AddClient(c.ID, c.Name, c.Gmail, c.Phone)
+
+	if c.CompanyID == "" {
+		http.Error(w, "company_id is required", http.StatusBadRequest)
+		return
+	}
+
+	newUuid := uuid.New().String()
+
+	err := h.DB.AddClient(newUuid, c.CompanyID, c.Name, c.Gmail, c.Phone)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
+
 	w.WriteHeader(http.StatusCreated)
 }
 

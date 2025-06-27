@@ -50,7 +50,7 @@ func (pg *Postgres) GetSchedulesByCompanyID(companyID string) ([]models.Schedule
 	var schedules []models.Schedule
 	for rows.Next() {
 		var sch models.Schedule
-		if err := rows.Scan(&sch.ID, &sch.ProcessClientID, &sch.ProcessAssignedEmployeeID, &sch.Schedule); err != nil {
+		if err := rows.Scan(&sch.ID, &sch.ProcessClientID, &sch.ProcessAssignedEmpID, &sch.Schedule); err != nil {
 			return nil, err
 		}
 		schedules = append(schedules, sch)

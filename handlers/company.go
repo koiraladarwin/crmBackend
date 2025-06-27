@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/koiraladarwin/crmbackend/models"
 )
@@ -14,7 +15,8 @@ func (h *Handler) AddCompany(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
 		return
 	}
-	if err := h.DB.AddCompany(company.ID, company.Name); err != nil {
+  newUuid := uuid.New().String()
+	if err := h.DB.AddCompany(newUuid, company.Name); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

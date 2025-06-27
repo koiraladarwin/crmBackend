@@ -37,21 +37,26 @@ func NewPostGres(dbName string, connStr string) (*Postgres, error) {
 	}
 
 	employees := `CREATE TABLE IF NOT EXISTS employees (
-		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-		user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-		company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
-		role TEXT NOT NULL
-	);`
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
+    role TEXT NOT NULL,
+    UNIQUE (user_id, company_id)
+   );`
 	if _, err := db.Exec(employees); err != nil {
 		return nil, err
 	}
 
-	clients := `CREATE TABLE IF NOT EXISTS clients (
-		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-		name TEXT NOT NULL,
-		gmail TEXT NOT NULL UNIQUE,
-		phone TEXT
-	);`
+	clients := `
+    CREATE TABLE IF NOT EXISTS clients (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    company_id UUID NOT NULL REFERENCES companies(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    gmail TEXT NOT NULL,
+    phone TEXT,
+    UNIQUE (company_id, gmail) 
+  );
+`
 	if _, err := db.Exec(clients); err != nil {
 		return nil, err
 	}

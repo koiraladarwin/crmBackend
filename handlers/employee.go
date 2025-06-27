@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/koiraladarwin/crmbackend/models"
 )
@@ -14,9 +15,12 @@ func (h *Handler) AddEmployee(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
 		return
 	}
-	err := h.DB.AddEmployee(emp.ID, emp.UserID, emp.CompanyID, emp.Role)
+  newId := uuid.New().String()
+
+	err := h.DB.AddEmployee(newId, emp.UserID, emp.CompanyID, emp.Role)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+    return
 	}
 	w.WriteHeader(http.StatusCreated)
 }
