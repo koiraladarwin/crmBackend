@@ -57,13 +57,28 @@ func NewPostGres(dbName string, connStr string) (*Postgres, error) {
 	}
 
 	clientProcess := `CREATE TABLE IF NOT EXISTS client_process (
-		client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
-		assigned_employee_id UUID NOT NULL REFERENCES employees(id) ON DELETE SET NULL,
-		expected_revenue NUMERIC(12,2) DEFAULT 0.00,
-		priority TEXT CHECK (priority IN ('Low', 'Medium', 'High')) DEFAULT 'Medium',
-		PRIMARY KEY (client_id, assigned_employee_id)
-	);`
+  	client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+  	assigned_employee_id UUID NOT NULL REFERENCES employees(id) ON DELETE SET NULL,
+  	expected_revenue NUMERIC(12,2) DEFAULT 0.00,
+  	priority TEXT CHECK (priority IN ('Low', 'Medium', 'High')) DEFAULT 'Medium',
+  	status TEXT DEFAULT 'Pending',
+  	PRIMARY KEY (client_id, assigned_employee_id)
+  );`
+
 	if _, err := db.Exec(clientProcess); err != nil {
+		return nil, err
+	}
+
+	schedule := `CREATE TABLE IF NOT EXISTS schedules (
+	id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	process_client_id UUID NOT NULL,
+	process_assigned_employee_id UUID NOT NULL,
+	schedule TEXT NOT NULL,
+	FOREIGN KEY (process_client_id, process_assigned_employee_id)
+		REFERENCES client_process(client_id, assigned_employee_id)
+		ON DELETE CASCADE
+  );`
+	if _, err := db.Exec(schedule); err != nil {
 		return nil, err
 	}
 

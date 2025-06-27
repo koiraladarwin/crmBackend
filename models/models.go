@@ -31,4 +31,12 @@ type ClientProcess struct {
 	AssignedEmployeeID string
 	ExpectedRevenue    float64
 	Priority           string
+	Status             string
+}
+
+type Schedule struct {
+	ID                   string
+	ProcessClientID      string
+	ProcessAssignedEmpID string
+	Schedule             string
 }
