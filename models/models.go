@@ -1,10 +1,11 @@
 package models
 
 type User struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Gmail string `json:"gmail"`
-	Phone string `json:"phone"`
+	ID       string `json:"id"`
+	Password string `json:"password"`
+	Name     string `json:"name"`
+	Gmail    string `json:"gmail"`
+	Phone    string `json:"phone"`
 }
 
 type Company struct {
@@ -19,7 +20,6 @@ type Employee struct {
 	Role      string `json:"role"`
 }
 
-
 type Client struct {
 	ID        string `json:"id"`
 	CompanyID string `json:"company_id"`
@@ -27,7 +27,6 @@ type Client struct {
 	Gmail     string `json:"gmail"`
 	Phone     string `json:"phone"`
 }
-
 
 type ClientProcess struct {
 	ClientID           string  `json:"client_id"`
@@ -43,4 +42,3 @@ type Schedule struct {
 	ProcessAssignedEmpID string `json:"process_assigned_employee_id"`
 	Schedule             string `json:"schedule"`
 }
-

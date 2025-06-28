@@ -20,6 +20,7 @@ func NewPostGres(dbName string, connStr string) (*Postgres, error) {
 
 	users := `CREATE TABLE IF NOT EXISTS users (
 		id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    password TEXT NOT NULL,
 		name TEXT NOT NULL,
 		gmail TEXT NOT NULL UNIQUE,
 		phone TEXT

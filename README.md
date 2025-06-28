@@ -11,7 +11,8 @@
 {
   "name": "John Doe",
   "gmail": "john.doe@example.com",
-  "phone": "9812345678"
+  "phone": "9812345678",
+  "password":"secret",
 }
 ```
 
@@ -26,6 +27,15 @@
 **Description:** Get user by ID  
 **Example:** `/getuser/550e8400-e29b-41d4-a716-446655440000`
 
+### 📄 `GET /getjwt`
+**Description:** Get user id and details  
+**Request Body:**
+```json
+{
+  "gmail": "john.doe@example.com",
+  "password": "secret"
+}
+```
 
 ## 🏢 Companies
 

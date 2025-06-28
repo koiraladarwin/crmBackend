@@ -29,6 +29,7 @@ func setupRoutes(r *mux.Router, h *handlers.Handler) {
 	r.HandleFunc("/adduser", h.AddUser).Methods("POST")
 	r.HandleFunc("/getusers", h.GetAllUsers).Methods("GET")
 	r.HandleFunc("/getuser/{id}", h.GetUser).Methods("GET")
+	r.HandleFunc("/getjwt", h.GetJwt).Methods("POST")
 
 	r.HandleFunc("/addcompany", h.AddCompany).Methods("POST")
 	r.HandleFunc("/getcompany/{id}", h.GetCompany).Methods("GET")

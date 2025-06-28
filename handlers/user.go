@@ -17,7 +17,7 @@ func (h *Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newID := uuid.New().String()
-	err := h.DB.AddUser(newID, user.Name, user.Gmail, user.Phone)
+	err := h.DB.AddUser(newID, user.Password, user.Name, user.Gmail, user.Phone)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -43,4 +43,19 @@ func (h *Handler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(users)
+}
+
+func (h *Handler) GetJwt(w http.ResponseWriter, r *http.Request) {
+  var user models.User
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+		http.Error(w, "Invalid input", http.StatusBadRequest)
+		return
+	}
+
+	dbuser, err := h.DB.GetUserByGmailandPassword(user.Gmail,user.Password)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+  json.NewEncoder(w).Encode(dbuser)
 }

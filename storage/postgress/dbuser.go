@@ -2,10 +2,9 @@ package postgres
 
 import "github.com/koiraladarwin/crmbackend/models"
 
-
-func (pg *Postgres) AddUser(id, name, gmail, phone string) error {
-	query := `INSERT INTO users (id, name, gmail, phone) VALUES ($1, $2, $3, $4)`
-	_, err := pg.db.Exec(query, id, name, gmail, phone)
+func (pg *Postgres) AddUser(id, password, name, gmail, phone string) error {
+	query := `INSERT INTO users (id,password, name, gmail, phone) VALUES ($1, $2, $3, $4, $5)`
+	_, err := pg.db.Exec(query, id, password, name, gmail, phone)
 	return err
 }
 
@@ -33,4 +32,11 @@ func (pg *Postgres) GetAllUsers() ([]models.User, error) {
 		users = append(users, user)
 	}
 	return users, nil
+}
+
+func (pg *Postgres) GetUserByGmailandPassword(gmail string, password string) (models.User, error) {
+	var user models.User
+	query := `SELECT id, name, gmail, phone FROM users WHERE password = $1 AND gmail = $2`
+	err := pg.db.QueryRow(query, password,gmail).Scan(&user.ID, &user.Name, &user.Gmail, &user.Phone)
+	return user, err
 }

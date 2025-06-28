@@ -3,8 +3,9 @@ package storage
 import "github.com/koiraladarwin/crmbackend/models"
 
 type Database interface {
-	AddUser(id, name, gmail, phone string) error
+	AddUser(id, password, name, gmail, phone string) error
 	GetUserByID(id string) (models.User, error)
+	GetUserByGmailandPassword(gmail string, password string) (models.User, error)
 	GetAllUsers() ([]models.User, error)
 
 	AddCompany(id, name string) error
@@ -15,7 +16,7 @@ type Database interface {
 	GetEmployeeByID(id string) (models.Employee, error)
 	GetEmployeesByCompanyID(companyID string) ([]models.Employee, error)
 
-	AddClient(id,companyId, name, gmail, phone string) error
+	AddClient(id, companyId, name, gmail, phone string) error
 	GetClientByID(id string) (models.Client, error)
 
 	AddClientProcess(clientID, employeeID string, revenue float64, priority, status string) error
