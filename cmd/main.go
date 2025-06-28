@@ -22,7 +22,7 @@ func main() {
 	r := mux.NewRouter()
 	setupRoutes(r, h)
 
-	log.Fatal(http.ListenAndServe(":8080", r))
+	log.Fatal(http.ListenAndServe(":8080", handlers.EnableCORS(r)))
 }
 
 func setupRoutes(r *mux.Router, h *handlers.Handler) {

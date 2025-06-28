@@ -46,16 +46,19 @@ func (h *Handler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) GetJwt(w http.ResponseWriter, r *http.Request) {
-  var user models.User
+	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, "Invalid input", http.StatusBadRequest)
 		return
 	}
 
-	dbuser, err := h.DB.GetUserByGmailandPassword(user.Gmail,user.Password)
+	dbuser, err := h.DB.GetUserByGmailandPassword(user.Gmail, user.Password)
+
 	if err != nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(map[string]string{"message": "User not found"})
 		return
 	}
-  json.NewEncoder(w).Encode(dbuser)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(dbuser)
 }

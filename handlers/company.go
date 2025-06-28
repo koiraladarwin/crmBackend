@@ -12,11 +12,18 @@ import (
 func (h *Handler) AddCompany(w http.ResponseWriter, r *http.Request) {
 	var company models.Company
 	if err := json.NewDecoder(r.Body).Decode(&company); err != nil {
-		http.Error(w, "Invalid input", http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"message": "Wrong format"})
 		return
 	}
-  newUuid := uuid.New().String()
-	if err := h.DB.AddCompany(newUuid, company.Name); err != nil {
+  userId := company.ID; //change this later as this is weird 
+	newComanyId := uuid.New().String()
+	if err := h.DB.AddCompany(newComanyId, company.Name); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	newEmployeeid := uuid.New().String()
+	if err := h.DB.AddEmployee(newEmployeeid,userId , newComanyId, "Owner"); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
